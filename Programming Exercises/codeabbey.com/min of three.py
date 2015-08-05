@@ -1,6 +1,9 @@
+##getting number of pairs and seting answer list
 num_of_pairs = int(raw_input("How many pairs?\n"))
 final_ans = []
 
+##getting three values to compare
+##comparing three values
 for i in range(0, num_of_pairs):
     a, b, c = raw_input("Enter numbers:\n").split(' ')
     min_num = int(c)

@@ -1,4 +1,6 @@
-values = raw_input("Enter numbers:\n").split(' ')
+## Sum of "A+B"
 
-total = int(values.pop()) + int(values.pop())
+values = raw_input("Enter numbers: ").split(' ')
+
+total = int(values[0])) + int(values[1])
 print total

@@ -15,4 +15,4 @@ for i in range(0, int(m_and_n[0])):
             counter["%s" % n] = counter["%s" % n] + 1
 
 for n in range(1, (int(m_and_n[1]) + 1)):
-    print str(counter[n])+" "
+    print str(counter[n]) + " "
