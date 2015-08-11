@@ -1,9 +1,8 @@
-au = {"1": 0, "2": 2}
+cases = {1: ["12", "34"], 2: ["56", "78"]}
 
-print au
+print cases
 
-au["2"] = au["2"] + 1
+for n in range(1, len(cases)+1):
+    cases[n] = map(int, cases[n])
 
-print au["2"]
-for n in range(1, len(au)+1):
-    print str(au[str(n)]) + " text "
+print cases
