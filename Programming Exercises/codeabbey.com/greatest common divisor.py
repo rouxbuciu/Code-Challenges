@@ -31,4 +31,5 @@ answer = {}
 for n in range(num_of_cases):
     answer[n] = [gcd_Euclid(cases[n]), lcm_Euclid(gcd_Euclid, cases[n])]
 
-print answer
+for n in (answer):
+    print ("(%s)" % answer[n]).translate(None, "[],"),
