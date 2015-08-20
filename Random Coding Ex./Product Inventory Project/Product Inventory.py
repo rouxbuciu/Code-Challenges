@@ -4,12 +4,12 @@
 # Project: Create an application which manages an inventory of products.
 # Create a product class which has a price, id, and quantity on hand. Then
 # create an inventory class which keeps track of various products and can sum
-# up the inventory value.
+# up the inventory value. [x]
 #
 # Personal goals for this project:
-# - Design a menu system
-# - Learn to use Try/Except to make sure user inputs valid things
-# - **Minor Goal** Learn how to save/read user data to a file for future use
+# - Design a menu system [x]
+# - Learn to use Try/Except to make sure user inputs valid things [x]
+# - Learn how to save/read user data to a file for future use [x]
 # ============================================================================
 
 # Import the modules needed to run the script.
@@ -24,6 +24,7 @@ import pickle
 
 menu_actions  = {}
 productList = []
+fileName = "Product Inventory.txt"
 
 
 # =======================
@@ -31,13 +32,13 @@ productList = []
 # =======================
 
 class Product(object):
-    """Products that a store has. Adding products in done by using the
-    add_product() function.
+    """Products that are being created off this template. Adding products is
+done by using the add_product() function.
 
-    Attributes:
-    Name - product name or id number
-    Price - product price
-    Quantity - the amount of the product on hand
+Product attributes:
+product.name - product name or id number
+product.price - product price
+product.quantity - the amount of the product on hand
     """
 
     def __init__(self, name, price, quantity):
@@ -63,16 +64,18 @@ class Inventory(Product):
     """Keeping track of everything that we have on hand."""
 
     def __init__(self):
+        """We don't create instances of inventory, we use it for inventory
+management purposes."""
         pass
 
-    # Seeing a printout of all products & their attributes
     def view_inventory(self, inventory):
+        """Generates a printout of all product instances & their attributes."""
         for prod in inventory:
             print prod.name.title(), prod.price, prod.quantity
         return
 
-    # User can search by specific product names
     def lookup_inventory(self, inventory):
+        """Allows user to search by specific product names."""
         lookup = raw_input("Enter product to lookup:\n")
         for prod in inventory:
             if lookup in prod.name:
@@ -80,9 +83,22 @@ class Inventory(Product):
                         prod.price, prod.quantity)
         return
 
-    # Adding new products to inventory
     def add_prod(self, inventory):
-        name = raw_input("Enter product name: ").lower()
+        """ Adding new products to inventory
+                Checks whether product being entered already exists
+                Makes sure quantity & price are numbers"""
+        while True:
+            os.system('clear')
+            name = raw_input("Enter product name: ").lower()
+            if len(productList) > 0:
+                for prod in productList:
+                    if name == prod.name:
+                        print "Product already exists."
+                        time.sleep(1)
+                        exec_menu('p')
+                break
+            else:
+                break
         while True:
             try:
                 price = float(raw_input("Enter product price: "))
@@ -99,8 +115,8 @@ class Inventory(Product):
         if verification() == 'y':
             inventory.append(Product(name, price, quantity))
 
-    # Removing exitsing products from inventory
     def remove_prod(self, inventory):
+        """Removing exitsing products from inventory."""
         temp = []
         for e in inventory:
             temp.append(e.name)
@@ -121,7 +137,7 @@ class Inventory(Product):
 #      FUNCTIONS
 # =====================
 
-# Create new Product instances
+# Create new instances of Product() (ie. new actual products)
 def add_product():
     Inventory().add_prod(productList)
     exec_menu('p')
@@ -134,6 +150,8 @@ def remove_product():
     exec_menu('p')
     return
 
+# Allows user to change the price of an already existing product
+#   Checks that product exists before continuing
 def change_price():
     print "Enter product name:"
     while True:
@@ -159,6 +177,8 @@ def change_price():
     exec_menu('p')
     return
 
+# Allows user to change the quantity of a product (positive or negative)
+#   checks whether the product exists before anything else
 def change_quantity():
     print "Enter product name:"
     while True:
@@ -198,8 +218,8 @@ def lookup_product():
     done = raw_input("[Enter to return to menu.]")
     exec_menu('i')
 
-# Checking with users if the information they entered is correct
-# using a simple yes or no function
+# Checking with users if the information they entered is correct or if they
+# are sure they want to proceed using a simple yes or no function
 def verification():
     print "Are you sure? (y/n)"
     while True:
@@ -212,6 +232,29 @@ def verification():
             time.sleep(1)
     return verify
 
+# Save product data to bundled file
+def save_data():
+    print "Saving product data to Product Inventory.txt"
+    if verification() == 'y':
+        fileObject = open(fileName, 'w')
+        pickle.dump(productList, fileObject)
+        fileObject.close()
+    exec_menu('main_menu')
+
+# Erase data from both internal memory and from bundled file data
+def erase_data():
+    print """WARNING
+
+    This action will erase both currently stored program data as well as all
+    program data stored on the disk. You cannot undo this action.
+
+    """
+    if verification() == 'y':
+        del productList[:]
+        fileObject = open(fileName, 'w')
+        fileObject.truncate()
+        fileObject.close()
+    exec_menu('d')
 
 # =======================
 #     MENUS FUNCTIONS
@@ -225,6 +268,7 @@ def main_menu():
     print "Please choose what menu you require:"
     print "[p] Product Management Menu"
     print "[i] Inventory Management Menu"
+    print "[d] Data Management\n"
     print "\n[f] Info"
     print "[q] Quit"
     choice = raw_input(" >>  ")
@@ -250,14 +294,14 @@ def menu_product():
     print "Product Management\n"
     print "[a] Add Product"
     print "[u] Update Product Price"
-    print "[r] Remove Product"
+    print "[r] Remove Product\n"
     print "\n[b] Back"
     print "[q] Quit"
     choice = raw_input(" >>  ")
     exec_menu(choice)
     return
 
-# Menu 2
+# Inventory Menu
 def menu_inventory():
     print "Inventory Management\n"
     print "[n] Update Product Quantity"
@@ -268,6 +312,18 @@ def menu_inventory():
     choice = raw_input(" >>  ")
     exec_menu(choice)
     return
+
+# Data Management Menu
+def data_management():
+    print "Data Management\n"
+    print "[s] Save Data to Disk"
+    print "[e] Erase Product Inventory\n"
+    print "\n[b] Back"
+    print "[q] Quit"
+    choice = raw_input(" >>  ")
+    exec_menu(choice)
+    return
+
 
 # About menu
 def about():
@@ -312,6 +368,9 @@ menu_actions = {
     'v': view_all_inventory,
     'l': lookup_product,
     'a': add_product,
+    's': save_data,
+    'e': erase_data,
+    'd': data_management,
     'f': about,
     'b': back,
     'q': exit,
@@ -322,7 +381,15 @@ menu_actions = {
 #      MAIN PROGRAM
 # =======================
 
-# Main Program
+# Before loading program, load any existing products
+try:
+    fileObject = open(fileName, 'r')
+    productList = pickle.load(fileObject)
+    fileObject.close()
+except EOFError:
+    pass
+
+# Main program
 if __name__ == "__main__":
     # Launch main menu
     main_menu()
