@@ -1,5 +1,5 @@
 # Learning2Code
-Storing various files as I learn to code frem websites with coding problems.
+Storing various files as I learn to code from websites with coding problems.
 
   Code Abbey problems can be found at: www.codeabbey.com
 
