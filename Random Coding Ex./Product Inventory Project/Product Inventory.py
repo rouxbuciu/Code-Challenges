@@ -1,16 +1,22 @@
 # ============================================================================
 # Product Inventory Project
 #
-# Create an application which manages an inventory of products. Create a
-# product class which has a price, id, and quantity on hand. Then create an
-# inventory class which keeps track of various products and can sum up the
-# inventory value.
+# Project: Create an application which manages an inventory of products.
+# Create a product class which has a price, id, and quantity on hand. Then
+# create an inventory class which keeps track of various products and can sum
+# up the inventory value.
+#
+# Personal goals for this project:
+# - Design a menu system
+# - Learn to use Try/Except to make sure user inputs valid things
+# - **Minor Goal** Learn how to save/read user data to a file for future use
 # ============================================================================
 
 # Import the modules needed to run the script.
 import sys
 import os
 import time
+import pickle
 
 # =======================
 #       CONSTANTS
@@ -25,7 +31,7 @@ productList = []
 # =======================
 
 class Product(object):
-    """Products that a store has. Adding is NOT done banually but by the
+    """Products that a store has. Adding products in done by using the
     add_product() function.
 
     Attributes:
@@ -42,7 +48,15 @@ class Product(object):
 
     def update_price(self, new_price):
         """Function to update the price of a product."""
-        pass
+        self.price = new_price
+
+    def update_quantity(self, new_quantity):
+        """Function to update the quantity of a product."""
+        if self.quantity + new_quantity < 0:
+            print "Quantity would be reduced below zero."
+            time.sleep(2)
+        else:
+            self.quantity += new_quantity
 
 
 class Inventory(Product):
@@ -51,7 +65,7 @@ class Inventory(Product):
     def __init__(self):
         pass
 
-    # Seeing a list of all products & their attributes
+    # Seeing a printout of all products & their attributes
     def view_inventory(self, inventory):
         for prod in inventory:
             print prod.name.title(), prod.price, prod.quantity
@@ -65,10 +79,6 @@ class Inventory(Product):
                 print "%s\nPrice: %s      Quantity: %s" % (prod.name.title(),
                         prod.price, prod.quantity)
         return
-
-    # Managing inventory numbers
-    def manage_inventory(self):
-        pass
 
     # Adding new products to inventory
     def add_prod(self, inventory):
@@ -124,21 +134,65 @@ def remove_product():
     exec_menu('p')
     return
 
-def update_price():
-    pass
+def change_price():
+    print "Enter product name:"
+    while True:
+        lookup = raw_input(" >> ").lower()
+        try:
+            for prod in productList:
+                if lookup == prod.name:
+                    break
+                break
+            break
+        except:
+            print "Please enter a valid product name."
+    print prod.name.title()
+    print "Current price: %s" % prod.price
+    print "\n Enter new price:"
+    while True:
+        try:
+            new_price = float(raw_input(" >> "))
+        except ValueError:
+            "Please enter a valid price."
+    if verification() == 'y':
+        prod.update_price(new_price)
+    exec_menu('p')
+    return
 
-def update_quantity():
-    pass
+def change_quantity():
+    print "Enter product name:"
+    while True:
+        lookup = raw_input(" >> ").lower()
+        try:
+            for prod in productList:
+                if lookup == prod.name:
+                    break
+                break
+            break
+        except:
+            print "Please enter a valid product name."
+    print prod.name.title()
+    print "Current quantity: %s" % prod.quantity
+    print "\nEnter quantity to add or substract from current stock:"
+    while True:
+        try:
+            new_quantity = int(raw_input(" >> "))
+            break
+        except ValueError:
+            print "Pleave enter a valid quantity"
+    if verification() == 'y':
+        prod.update_quantity(new_quantity)
+    exec_menu('i')
+    return
 
-def create_inventory():
-    pass
-
+# Display all information about all products
 def view_all_inventory():
     Inventory().view_inventory(productList)
     done = raw_input("[Enter to return to menu.]")
     exec_menu('i')
     return
 
+# Only display information about specific product user searches for
 def lookup_product():
     Inventory().lookup_inventory(productList)
     done = raw_input("[Enter to return to menu.]")
@@ -147,7 +201,7 @@ def lookup_product():
 # Checking with users if the information they entered is correct
 # using a simple yes or no function
 def verification():
-    print "Is this correct? (y/n)"
+    print "Are you sure? (y/n)"
     while True:
         verify = raw_input(" >> ").lower()
         try:
@@ -167,11 +221,12 @@ def verification():
 def main_menu():
     os.system('clear')
 
-    print "Product Inventory Project 1.0 \n"
-    print "Please choose the menu you want to start:"
+    print "Product Inventory Project \n"
+    print "Please choose what menu you require:"
     print "[p] Product Management Menu"
     print "[i] Inventory Management Menu"
-    print "\n[q] Quit"
+    print "\n[f] Info"
+    print "[q] Quit"
     choice = raw_input(" >>  ")
     exec_menu(choice)
     return
@@ -206,7 +261,6 @@ def menu_product():
 def menu_inventory():
     print "Inventory Management\n"
     print "[n] Update Product Quantity"
-    print "[c] Create Inventory List"
     print "[l] Lookup item in inventory"
     print "[v] View Complete Inventory\n"
     print "\n[b] Back"
@@ -214,6 +268,25 @@ def menu_inventory():
     choice = raw_input(" >>  ")
     exec_menu(choice)
     return
+
+# About menu
+def about():
+    print """
+    Product Inventory Project
+    v 0.9
+
+    created 19/08/2015
+
+    all coding by
+    everybody_codes
+
+
+    www.thecrunge.org
+
+
+    (c) 2015 Roux G. Buciu"""
+    choice = raw_input("")
+    exec_menu('main_menu')
 
 # Back to main menu
 def back():
@@ -234,12 +307,12 @@ menu_actions = {
     'p': menu_product,
     'i': menu_inventory,
     'r': remove_product,
-    'u': update_price,
-    'n': update_quantity,
-    'c': create_inventory,
+    'u': change_price,
+    'n': change_quantity,
     'v': view_all_inventory,
     'l': lookup_product,
     'a': add_product,
+    'f': about,
     'b': back,
     'q': exit,
 }
