@@ -6,7 +6,7 @@
 # create an inventory class which keeps track of various products and can sum
 # up the inventory value. [x]
 #
-# Personal goals for this project:
+# Additional personal goals for this project:
 # - Design a menu system [x]
 # - Learn to use Try/Except to make sure user inputs valid things [x]
 # - Learn how to save/read user data to a file for future use [x]
@@ -65,7 +65,7 @@ class Inventory(Product):
 
     def __init__(self):
         """We don't create instances of inventory, we use it for inventory
-management purposes."""
+        management purposes."""
         pass
 
     def view_inventory(self, inventory):
@@ -76,11 +76,19 @@ management purposes."""
 
     def lookup_inventory(self, inventory):
         """Allows user to search by specific product names."""
-        lookup = raw_input("Enter product to lookup:\n")
-        for prod in inventory:
-            if lookup in prod.name:
-                print "%s\nPrice: %s      Quantity: %s" % (prod.name.title(),
-                        prod.price, prod.quantity)
+        name, exists, prod_index = lookup()
+        if len(productList) == 0:
+            print "There are no products currently in the database."
+            time.sleep(2)
+
+        elif len(productList) > 0 and exists == 'n':
+            print "No such product exists in the database."
+
+        elif len(productList) > 0 and exists == 'y':
+            print "Product Info: ", inventory[prod_index].name.title()
+            print "Current price: %s\t Current stock: %s" % (
+                    inventory[prod_index].price,
+                    inventory[prod_index].quantity)
         return
 
     def add_prod(self, inventory):
@@ -89,14 +97,10 @@ management purposes."""
                 Makes sure quantity & price are numbers"""
         while True:
             os.system('clear')
-            name = raw_input("Enter product name: ").lower()
-            if len(productList) > 0:
-                for prod in productList:
-                    if name == prod.name:
-                        print "Product already exists."
-                        time.sleep(1)
-                        exec_menu('p')
-                break
+            name, exists, prod_index = lookup()
+            if len(productList) > 0 and exists == 'y':
+                print "Product already exists."
+                time.sleep(1)
             else:
                 break
         while True:
@@ -117,25 +121,24 @@ management purposes."""
 
     def remove_prod(self, inventory):
         """Removing exitsing products from inventory."""
-        temp = []
-        for e in inventory:
-            temp.append(e.name)
-        while True:
-            product = raw_input(" >> ").lower()
-            if product in temp:
-                if verification() == 'y':
-                    inventory.pop(temp.index(product))
-                    print "Removing %s." % product
-                    time.sleep(1)
-                    break
-            elif product not in temp:
-                print "Product not found."
+        name, exists, prod_index = lookup()
+        if len(productList) == 0:
+            print "There are no products currently in the database."
+            time.sleep(2)
+
+        elif len(productList) > 0 and exists == 'n':
+            print "No such product exists in the database."
+            time.sleep(2)
+
+        elif len(productList) > 0 and exists == 'y':
+            if verification() == 'y':
+                inventory.pop(prod_index)
+                print "Removing %s.......  done" % name
                 time.sleep(1)
 
-
-# =====================
-#      FUNCTIONS
-# =====================
+# ==============================
+#    USER - ACCESSED FUNCTIONS
+# ==============================
 
 # Create new instances of Product() (ie. new actual products)
 def add_product():
@@ -145,7 +148,7 @@ def add_product():
 
 # Removing a product from the productList
 def remove_product():
-    print "Enter product to remove from inventory:"
+    print "WARNING:\nRemoving a product from the database cannot be undone.\n"
     Inventory().remove_prod(productList)
     exec_menu('p')
     return
@@ -153,55 +156,56 @@ def remove_product():
 # Allows user to change the price of an already existing product
 #   Checks that product exists before continuing
 def change_price():
-    print "Enter product name:"
-    while True:
-        lookup = raw_input(" >> ").lower()
-        try:
-            for prod in productList:
-                if lookup == prod.name:
-                    break
+    prod, exists, prod_index = lookup()
+    if len(productList) == 0:
+        print "There are no products currently in the database."
+        time.sleep(2)
+
+    elif len(productList) > 0 and exists == 'n':
+        print "There is no such product in the database."
+        time.sleep(2)
+
+    elif len(productList) > 0 and exists == 'y':
+        print productList[prod_index].name.title()
+        print "Current price: %s" % productList[prod_index].price
+        print "\nEnter new price:"
+        while True:
+            try:
+                new_price = float(raw_input(" >> "))
                 break
-            break
-        except:
-            print "Please enter a valid product name."
-    print prod.name.title()
-    print "Current price: %s" % prod.price
-    print "\n Enter new price:"
-    while True:
-        try:
-            new_price = float(raw_input(" >> "))
-        except ValueError:
-            "Please enter a valid price."
-    if verification() == 'y':
-        prod.update_price(new_price)
+            except ValueError:
+                print "Pleave enter a valid price."
+        if verification() == 'y':
+            productList[prod_index].update_price(new_price)
+
     exec_menu('p')
     return
 
 # Allows user to change the quantity of a product (positive or negative)
 #   checks whether the product exists before anything else
 def change_quantity():
-    print "Enter product name:"
-    while True:
-        lookup = raw_input(" >> ").lower()
-        try:
-            for prod in productList:
-                if lookup == prod.name:
-                    break
+    prod, exists, prod_index = lookup()
+    if len(productList) == 0:
+        print "There are no products currently in the database."
+        time.sleep(2)
+
+    elif len(productList) > 0 and exists == 'n':
+        print "There is no such product in the database."
+        time.sleep(2)
+
+    elif len(productList) > 0 and exists == 'y':
+        print productList[prod_index].name.title()
+        print "Current quantity: %s" % productList[prod_index].quantity
+        print "\nEnter quantity to add or substract from current stock:"
+        while True:
+            try:
+                new_quantity = int(raw_input(" >> "))
                 break
-            break
-        except:
-            print "Please enter a valid product name."
-    print prod.name.title()
-    print "Current quantity: %s" % prod.quantity
-    print "\nEnter quantity to add or substract from current stock:"
-    while True:
-        try:
-            new_quantity = int(raw_input(" >> "))
-            break
-        except ValueError:
-            print "Pleave enter a valid quantity"
-    if verification() == 'y':
-        prod.update_quantity(new_quantity)
+            except ValueError:
+                print "Pleave enter a valid quantity"
+        if verification() == 'y':
+            productList[prod_index].update_quantity(new_quantity)
+
     exec_menu('i')
     return
 
@@ -217,20 +221,6 @@ def lookup_product():
     Inventory().lookup_inventory(productList)
     done = raw_input("[Enter to return to menu.]")
     exec_menu('i')
-
-# Checking with users if the information they entered is correct or if they
-# are sure they want to proceed using a simple yes or no function
-def verification():
-    print "Are you sure? (y/n)"
-    while True:
-        verify = raw_input(" >> ").lower()
-        try:
-            if verify in ('y', 'n'):
-                break
-        except:
-            print "Please enter a valid answer"
-            time.sleep(1)
-    return verify
 
 # Save product data to bundled file
 def save_data():
@@ -255,6 +245,46 @@ def erase_data():
         fileObject.truncate()
         fileObject.close()
     exec_menu('d')
+
+
+# ======================
+#   PROGRAM FUNCTIONS
+# ======================
+
+# Checking with users if the information they entered is correct or if they
+# are sure they want to proceed using a simple yes or no function
+def verification():
+    print "Are you sure? (y/n)"
+    while True:
+        verify = raw_input(" >> ").lower()
+        try:
+            if verify in ('y', 'n'):
+                break
+        except:
+            print "Please enter a valid answer"
+            time.sleep(1)
+    return verify
+
+# Useful function for checking whether a product name is in the productList
+def lookup():
+    while True:
+        name = raw_input("Enter product name:\n >> ").lower()
+        if len(productList) == 0:
+            prod_exists = 'n'
+            prod_index = '0'
+            break
+        else:
+            for prod in productList:
+                if name == prod.name:
+                    prod_exists = 'y'
+                    prod_index = productList.index(prod)
+                    break
+                else:
+                    prod_exists = 'n'
+                    prod_index = '0'
+            break
+    return (name, prod_exists, prod_index)
+
 
 # =======================
 #     MENUS FUNCTIONS
