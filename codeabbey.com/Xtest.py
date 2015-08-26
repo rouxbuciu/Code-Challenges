@@ -1,3 +1,7 @@
-cases = {1: ["12", "34"], 2: "56"}
+answer = []
 
-print cases["56"]
+for x in range(int(raw_input("How many cases: "))):
+    disp, string = raw_input("").split()
+    answer.append(string[int(disp):] + string[:int(disp)])
+
+print ' '.join(answer)
