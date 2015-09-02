@@ -15,6 +15,9 @@ def save_database():
     with open("fandango services.txt", 'wb') as f:
         pickle.dump(cfg.SERVICES, f)
 
+    with open("fandango_invoices.txt", 'wb') as f:
+        pickle.dump(cfg.INVOICES, f)
+
 
 def alert(message=''):
     print("\n\n")
@@ -78,7 +81,7 @@ def lookup(search_term, search_array):
         else:
             for item in search_array:
                 if search_array is cfg.SERVICES:
-                    if name is item:
+                    if name == item:
                         item_exists = True
                         item_index = None
                         break
@@ -86,7 +89,8 @@ def lookup(search_term, search_array):
                         item_exists = False
                         item_index = None
                 elif search_array is cfg.CLIENT_LIST:
-                    if name is item.name:
+                    temp_name = item.first_name + " " + item.last_name
+                    if name == temp_name:
                         item_exists = True
                         item_index = search_array.index(item)
                         break

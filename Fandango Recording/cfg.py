@@ -4,3 +4,4 @@
 
 CLIENT_LIST = []
 SERVICES = {}
+INVOICES = []
