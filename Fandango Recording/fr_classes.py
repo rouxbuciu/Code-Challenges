@@ -40,3 +40,7 @@ class Sessions(object):
 
 class Invoice(object):
     pass
+
+
+class Quote(object):
+    pass
