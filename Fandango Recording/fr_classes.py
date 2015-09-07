@@ -37,9 +37,15 @@ class Sessions(object):
         self.length = length
 
 
-
 class Invoice(object):
-    pass
+
+    def __init__(self, invoice_number, invoice_date, total, customer_info=[],
+                 services_rendered=[]):
+        self.invoice_number = invoice_number
+        self.invoice_date = invoice_date
+        self.customer_info = customer_info
+        self.services_rendered = services_rendered
+        self.total = total
 
 
 class Quote(object):

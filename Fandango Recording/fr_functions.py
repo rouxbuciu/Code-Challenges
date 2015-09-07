@@ -99,3 +99,12 @@ def lookup(search_term, search_array):
                         item_index = None
             break
     return (name, item_exists, item_index)
+
+
+def find_invoice_number():
+    if not cfg.INVOICES:
+        invoice_num = 1
+    else:
+        invoice_num = cfg.INVOICES[-1].invoice_number + 1
+
+    return invoice_num

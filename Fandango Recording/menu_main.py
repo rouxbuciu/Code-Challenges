@@ -3,6 +3,7 @@ import os
 import menu_services
 import menu_client
 import menu_invoice
+import menu_quote
 import cfg
 import fr_functions
 import menu_projects
@@ -24,7 +25,7 @@ def main_menu():
     print("\t[c] Client Management")
     print("\t[s] Service Management")
     print("\t[u] Generate a Quote")
-    print("\t[i] Generate Invoice\n")
+    print("\t[i] Invoices\n")
     print("\t[a] About\n")
     print("\t[q] Save & Quit")
     choice = input("\n\t >> ")
@@ -98,14 +99,19 @@ def projects_menu(name, item_index):
 
 def invoice_menu():
     os.system('clear')
+    context_actions = {
+        'p': menu_invoice.new_invoice,
+        'v': menu_invoice.view_invoice,
+        }
 
     print("\n\n\t\t\tHandle My Music Business\n")
     print("\tInvoices Menu\n")
-    print("\t[p] Prepare Client Invoice\n")
+    print("\t[p] Prepare Client Invoice")
+    print("\t[v] View Past Invoices\n")
     print("\t[b] back\n")
     print("\t[q] Save & Quit")
     choice = input("\n\t >> ")
-    execute_menu(choice)
+    execute_menu(choice, context_actions)
     return
 
 
@@ -133,7 +139,12 @@ def service_menu():
 
 
 def quote_menu():
-    pass
+    os.system('clear')
+    menu_quote.generate_quote()
+    choice = input("\n\t >> ")
+    execute_menu(choice)
+    return
+
 
 def about_menu():
     os.system('clear')
