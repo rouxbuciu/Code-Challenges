@@ -40,13 +40,15 @@ class Sessions(object):
 
 class Invoice(object):
 
-    def __init__(self, invoice_number, invoice_date, total, customer_info=[],
-                 services_rendered=[]):
+    def __init__(self, invoice_number, invoice_date, total, discount,
+                 final_total, customer_info=[], services_rendered=[]):
         self.invoice_number = invoice_number
         self.invoice_date = invoice_date
         self.customer_info = customer_info
         self.services_rendered = services_rendered
         self.total = total
+        self.discount = discount
+        self.final_total = final_total
 
 
 class Quote(object):

@@ -24,7 +24,6 @@ def main_menu():
     print("\tMain Menu\n")
     print("\t[c] Client Management")
     print("\t[s] Service Management")
-    print("\t[u] Generate a Quote")
     print("\t[i] Invoices\n")
     print("\t[a] About\n")
     print("\t[q] Save & Quit")
@@ -135,14 +134,6 @@ def service_menu():
     print("\t[q] Save & Quit")
     choice = input("\n\t >> ")
     execute_menu(choice, context_actions)
-    return
-
-
-def quote_menu():
-    os.system('clear')
-    menu_quote.generate_quote()
-    choice = input("\n\t >> ")
-    execute_menu(choice)
     return
 
 

@@ -127,8 +127,11 @@ def unpack_invoice_information(invoice):
     inv_date = invoice.invoice_date
     inv_number = str(invoice.invoice_number).zfill(5)
     total = invoice.total
+    discount = invoice.discount
+    final_total = invoice.final_total
     invoice_information = [name, street, city, country, zip_code,
-                           phone, inv_date, inv_number, total]
+                           phone, inv_date, inv_number, total, discount,
+                           final_total]
     for item in invoice.services_rendered:
         invoice_information.append(item.service)
         invoice_information.append(item.length)
