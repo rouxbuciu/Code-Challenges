@@ -108,3 +108,32 @@ def find_invoice_number():
         invoice_num = cfg.INVOICES[-1].invoice_number + 1
 
     return invoice_num
+
+
+def write_to_csv(information):
+
+    with open("fr_csv_data.csv", "w") as f:
+        f.write(','.join(str(e) for e in information))
+
+
+def unpack_invoice_information(invoice):
+    invoice_information = []
+    name = invoice.customer_info[0]
+    street = invoice.customer_info[2]
+    city = invoice.customer_info[3]
+    country = invoice.customer_info[4]
+    zip_code = invoice.customer_info[5]
+    phone = invoice.customer_info[1]
+    inv_date = invoice.invoice_date
+    inv_number = str(invoice.invoice_number).zfill(5)
+    total = invoice.total
+    invoice_information = [name, street, city, country, zip_code,
+                           phone, inv_date, inv_number, total]
+    for item in invoice.services_rendered:
+        invoice_information.append(item.service)
+        invoice_information.append(item.length)
+        invoice_information.append(item.cost)
+        invoice_information.append(item.unit_price)
+        invoice_information.append(item.date)
+
+    return invoice_information

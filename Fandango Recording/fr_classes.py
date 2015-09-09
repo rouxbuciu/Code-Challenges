@@ -30,11 +30,12 @@ class Project(object):
 
 class Sessions(object):
 
-    def __init__(self, date, service, length, cost):
+    def __init__(self, date, service, length, cost, unit_price):
         self.date = date
         self.service = service
         self.cost = cost
         self.length = length
+        self.unit_price = unit_price
 
 
 class Invoice(object):

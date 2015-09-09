@@ -59,7 +59,8 @@ def edit_project(name, item_index):
             cost = cfg.SERVICES["%s" % service_name.title()] * session_length
             cfg.CLIENT_LIST[item_index].projects[
                 project_choice].sessions.append(fr_classes.Sessions(
-                    session_date, service_name, session_length, cost))
+                    session_date, service_name, session_length, cost,
+                    cfg.SERVICES["%s" % service_name.title()]))
             break
         else:
             fr_functions.alert("Service does not exist.")

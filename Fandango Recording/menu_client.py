@@ -17,8 +17,8 @@ def add_client():
     email = input("\nEnter client e-mail:\n >> ").lower()
     phone = input("\nEnter client phone (###-###-####):\n >> ")
     street = input("\nEnter client's street address:\n >>")
-    city = input("\nEnter client's city:\n >>").title()
-    country = input("\nEnter client's province and country:\n >>")
+    city = input("\nEnter client's city and province:\n >>").title()
+    country = input("\nEnter client's country:\n >>")
     zipcode = input("\nEnter client's postal code:\n >>")
     survey = input("\nHow did client hear about us?\n >>").lower()
 
