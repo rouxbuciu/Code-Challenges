@@ -30,13 +30,16 @@ def add_project(name, item_index):
     proj_name = input("\n\nEnter new project name:\n >> ").lower()
     date = time.strftime("%d/%m/%Y")
     cfg.CLIENT_LIST[item_index].projects.append(fr_classes.Project(
-        proj_name, date))
+        proj_name, date, sessions=[]))
 
     fr_functions.save_database()
     menu_main.projects_menu(name, item_index)
 
 
 def edit_project(name, item_index):
+    """ Adds Session class to the projects that cantains information on the
+    various sessions that happened (ie. Recording session on a date or whatnot)
+    """
     os.system("clear")
 
     print('\nPlease choose a project to add a session to:\n')

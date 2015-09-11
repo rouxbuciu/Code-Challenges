@@ -1,7 +1,8 @@
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
-
+import menu_main
 import csv
+import os
 
 data_file = "fr_csv_data.csv"
 
@@ -89,10 +90,10 @@ def import_data(data_file):
             s5p = ''
             s5d = ''
 
-        pdf_file = number + ".pdf"
-        # complete_name = os.path.abspath("~/documents/%s.pdf" % pdf_file)
+        pdf_name = number + ".pdf"
+        save_file = os.path.join(os.path.expanduser("~"), "Desktop/", pdf_name)
         generate_pdf(name, street, city, country, zip_code, phone, date,
-                     number, total, discount, final_total, pdf_file, s1, s1n,
+                     number, total, discount, final_total, save_file, s1, s1n,
                      s1c, s1h, s1p, s1d, s2, s2n, s2c, s2h, s2p, s2d, s3, s3n,
                      s3c, s3h, s3p, s3d, s4, s4n, s4c, s4h, s4p, s4d, s5, s5n,
                      s5c, s5h, s5p, s5d)
@@ -176,4 +177,7 @@ def generate_pdf(name, street, city, country, zip_code, phone, date, number,
     c.showPage()
     c.save()
 
-import_data(data_file)
+
+def make_invoice(data_file="fr_csv_data.csv"):
+    import_data(data_file)
+    menu_main.invoice_menu()

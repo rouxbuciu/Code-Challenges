@@ -41,8 +41,38 @@ def add_client():
     menu_main.execute_menu('c')
 
 
-def remove_client():
-    pass
+def edit_client_info():
+    os.system('clear')
+
+    client_name, cilent_exists, client_index = fr_functions.lookup(
+        "client's", cfg.CLIENT_LIST)
+
+    print("\tCurrent client information:")
+    print("\t" + item.first_name + " " + item.last_name)
+    print("\t" + item.street)
+    print("\t" + item.city)
+    print("\t" + item.country)
+    print("\t" + item.zipcode)
+    print("\t" + item.email)
+    print("\t" + item.phone)
+
+    new_email = input("\n\tEnter client e-mail:\n >> ").lower()
+    new_phone = input("\n\tEnter client phone (###-###-####):\n >> ")
+    new_street = input("\n\tEnter client's street address:\n >>")
+    new_city = input("\n\tEnter client's city and province:\n >>").title()
+    new_country = input("\n\tEnter client's country:\n >>")
+    new_zipcode = input("\n\tEnter client's postal code:\n >>")
+
+    fr_functions.alert("Warning: you cannot undo this change.")
+    if fr_functions.verification() == 'y':
+        cfg.CLIENT_LIST[client_index].email = new_email
+        cfg.CLIENT_LIST[client_index].phone = new_phone
+        cfg.CLIENT_LIST[client_index].street = new_street
+        cfg.CLIENT_LIST[client_index].city = new_city
+        cfg.CLIENT_LIST[client_index].country = new_country
+        cfg.CLIENT_LIST[client_index].zip_code = new_zipcode
+
+    menu_main.execute_menu('c')
 
 
 def view_all_clients():

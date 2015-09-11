@@ -17,9 +17,9 @@ import cfg
 
 # Before loading program, load the client daabase
 try:
-    with open('fandango database.txt', 'rb') as f:
+    with open('fandango_database.txt', 'rb') as f:
         cfg.CLIENT_LIST = pickle.load(f)
-    with open('fandango services.txt', 'rb') as f:
+    with open('fandango_services.txt', 'rb') as f:
         cfg.SERVICES = pickle.load(f)
     with open('fandango_invoices.txt', 'rb') as f:
         cfg.INVOICES = pickle.load(f)

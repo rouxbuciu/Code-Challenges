@@ -1,7 +1,6 @@
 import os
 import cfg
 import fr_classes
-import menu_projects
 import fr_generate_invoice
 import fr_functions
 import menu_main
@@ -69,8 +68,7 @@ def new_invoice():
     fr_functions.save_database()
     fr_functions.write_to_csv(fr_functions.unpack_invoice_information(
                               current_invoice))
-    #fr_generate_invoice
-    menu_main.main_menu()
+    fr_generate_invoice.make_invoice()
 
 
 def view_invoice():
@@ -106,10 +104,8 @@ def view_invoice():
 
     print("\nWhich invoice would you like to view:")
     view_invoice = fr_functions.check_if_number() - 1
-
-    fr_functions.alert("I work")
-    #current invoice = temp_list[view_invoice]
-    #fr_functions.write_to_csv(fr_functions.unpack_invoice_information(
-    #                          current_invoice))
-    #fr_generate_invoice
+    current_invoice = temp_list[view_invoice]
+    fr_functions.write_to_csv(fr_functions.unpack_invoice_information(
+                              current_invoice))
+    fr_generate_invoice.make_invoice()
     menu_main.main_menu()

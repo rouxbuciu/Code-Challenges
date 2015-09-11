@@ -9,10 +9,10 @@ import cfg
 
 
 def save_database():
-    with open("fandango database.txt", 'wb') as f:
+    with open("fandango_database.txt", 'wb') as f:
         pickle.dump(cfg.CLIENT_LIST, f)
 
-    with open("fandango services.txt", 'wb') as f:
+    with open("fandango_services.txt", 'wb') as f:
         pickle.dump(cfg.SERVICES, f)
 
     with open("fandango_invoices.txt", 'wb') as f:

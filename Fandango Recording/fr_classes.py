@@ -49,7 +49,3 @@ class Invoice(object):
         self.total = total
         self.discount = discount
         self.final_total = final_total
-
-
-class Quote(object):
-    pass

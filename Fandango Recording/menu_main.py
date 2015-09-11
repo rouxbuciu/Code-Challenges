@@ -3,7 +3,6 @@ import os
 import menu_services
 import menu_client
 import menu_invoice
-import menu_quote
 import cfg
 import fr_functions
 import menu_projects
@@ -38,7 +37,7 @@ def client_menu():
     context_actions = {
         'v': menu_client.view_all_clients,
         'a': menu_client.add_client,
-        'r': menu_client.remove_client,
+        'e': menu_client.edit_client_info,
         'm': pre_projects_menu,
     }
 
@@ -46,8 +45,8 @@ def client_menu():
     print("\tClient Management\n")
     print("\t[m] Manage Client Projects")
     print("\t[v] View All Clients")
-    print("\t[a] Add Client\n")
-    # print("\t[r] Remove Client\n")
+    print("\t[a] Add Client")
+    print("\t[e] Edit Client Info\n")
     print("\t[b] Back\n")
     print("\t[q] Save & Quit")
     choice = input("\n\t >> ")
